@@ -5,79 +5,74 @@ CREATE DATABASE SpotifyClone;
 -- CREATE TABLE AREA --
 -- plann --
 CREATE TABLE SpotifyClone.plann(
-    plann_id INTEGER NOT NULL AUTO_INCREMENT,
-    plann_name VARCHAR(100) NOT NULL,
-    plann_value DECIMAL(3, 2) NOT NULL,
-    CONSTRAINT PRIMARY KEY(plann_id),
+    plann_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    plann_name VARCHAR(50) NOT NULL,
+    plann_value DECIMAL(3, 2) NOT NULL
 ) engine = InnoDB;
 
 -- user --
 CREATE TABLE SpotifyClone.user(
-    user_id INTEGER NOT NULL AUTO_INCREMENT,
+    user_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     user_name VARCHAR(100) NOT NULL,
-    user_age INTEGER NOT NULL,
+    user_age INT NOT NULL,
     user_date_signature DATE NOT NULL,
-    plann_id INTEGER,
-    FOREIGN KEY (plann_id) REFERENCES plann (plann_id),
-    CONSTRAINT PRIMARY KEY(user_id),
+    plann_id INT NOT NULL,
+    FOREIGN KEY (plann_id) REFERENCES plann (plann_id)
 ) engine = InnoDB;
 
 -- artist --
 CREATE TABLE SpotifyClone.artist(
-    artist_id INTEGER NOT NULL AUTO_INCREMENT,
-    artist_name VARCHAR(100) NOT NULL,
-    CONSTRAINT PRIMARY KEY(artist_id),
+    artist_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    artist_name VARCHAR(50) NOT NULL
 ) engine = InnoDB;
 
 -- album --
 CREATE TABLE SpotifyClone.album(
-    album_id INTEGER NOT NULL AUTO_INCREMENT,
-    artist_id VARCHAR(100),
+    album_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    artist_id INT NOT NULL,
     album_name VARCHAR(100) NOT NULL,
-    album_year_release DATE NOT NULL,
-    FOREIGN KEY (artist_id) REFERENCES artist (artist_id),
-    CONSTRAINT PRIMARY KEY(album_id),
+    album_year_release YEAR NOT NULL,
+    FOREIGN KEY (artist_id) REFERENCES artist (artist_id)
 ) engine = InnoDB;
 
 -- song --
 CREATE TABLE SpotifyClone.song(
-    song_id INTEGER NOT NULL AUTO_INCREMENT,
-    album_id INTEGER,
-    artist_id VARCHAR(100),
-    song_name VARCHAR(100) NOT NULL,
+    song_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    album_id INT NOT NULL,
+    artist_id INT NOT NULL,
+    song_name VARCHAR(50) NOT NULL,
     song_duration_seconds INTEGER NOT NULL,
     FOREIGN KEY (album_id) REFERENCES album (album_id),
-    FOREIGN KEY (artist_id) REFERENCES artist (artist_id),
-    CONSTRAINT PRIMARY KEY(song_id),
+    FOREIGN KEY (artist_id) REFERENCES artist (artist_id)
 ) engine = InnoDB;
 
 -- reproduction_history --
 CREATE TABLE SpotifyClone.reproduction_history(
-    reproduction_id INTEGER NOT NULL AUTO_INCREMENT,
-    user_id INTEGER,
-    song_id INTEGER,
+    user_id INT NOT NULL,
+    song_id INT NOT NULL,
     date_reproduction DATETIME NOT NULL,
+    CONSTRAINT PRIMARY KEY(user_id, song_id),
     FOREIGN KEY (user_id) REFERENCES user (user_id),
-    FOREIGN KEY (song_id) REFERENCES song (song_id),
-    CONSTRAINT PRIMARY KEY(reproduction_id),
+    FOREIGN KEY (song_id) REFERENCES song (song_id)
 ) engine = InnoDB;
 
 -- following_schema --
 CREATE TABLE SpotifyClone.following_schema(
-    user_id INTEGER,
-    artist_id INTEGER,
+    user_id INT NOT NULL,
+    artist_id INT NOT NULL,
+    CONSTRAINT PRIMARY KEY(user_id, artist_id),
     FOREIGN KEY (user_id) REFERENCES user (user_id),
-    FOREIGN KEY (artist_id) REFERENCES artist (artist_id),
+    FOREIGN KEY (artist_id) REFERENCES artist (artist_id)
 ) engine = InnoDB;
 
 -- INSERT AREA --
 -- plann
 INSERT INTO SpotifyClone.plann (plann_name, plann_value)
 VALUES
-  ('gratuito', 0.00), --1--
-  ('universitário', 5.99), --2--
-  ('pessoal', 6.99), --3--
-  ('familiar', 7.99); --4--
+  ('gratuito', 0.00),
+  ('universitário', 5.99),
+  ('pessoal', 6.99),
+  ('familiar', 7.99);
 
 -- user
 INSERT INTO SpotifyClone.user (user_name, user_age, user_date_signature, plann_id)
@@ -96,79 +91,79 @@ VALUES
 -- artist
 INSERT INTO SpotifyClone.artist (artist_name)
 VALUES
-  ('Fog'), --1--
-  ('Freddie Shannon'), --2--
-  ('Lance Day'), --3--
-  ('Peter Strong'), --4--
-  ('Tyler Isle'), --5--
-  ('Walter Phoenix'); --6--
+  ('Fog'),
+  ('Freddie Shannon'),
+  ('Lance Day'),
+  ('Peter Strong'),
+  ('Tyler Isle'),
+  ('Walter Phoenix'); 
 
 -- album
 INSERT INTO SpotifyClone.album (artist_id, album_name, album_year_release)
 VALUES
-  (6, 'Envious', 1990), --1--
-  (6, 'Exuberant', 1993), --2--
-  (4, 'Hallowed Steam', 1995), --3--
-  (3, 'Incandescent', 1998), --4--
-  (2, 'Temporary Culture', 2001), --5--
-  (2, 'Library of liberty', 2003), --6--
-  (5, 'Chained Down', 2007), --7--
-  (5, 'Cabinet of fools', 2012), --8--
-  (5, 'No guarantees', 2015), --9--
-  (1, 'Apparatus', 2015); --10--
+  (6, 'Envious', 1990),
+  (6, 'Exuberant', 1993),
+  (4, 'Hallowed Steam', 1995),
+  (3, 'Incandescent', 1998),
+  (2, 'Temporary Culture', 2001),
+  (2, 'Library of liberty', 2003),
+  (5, 'Chained Down', 2007),
+  (5, 'Cabinet of fools', 2012),
+  (5, 'No guarantees', 2015),
+  (1, 'Apparatus', 2015);
 
 -- song
 INSERT INTO SpotifyClone.song (album_id, artist_id, song_name, song_duration_seconds)
 VALUES
-  (1, 6, 'Soul For Us', 200), --1
-  (1, 6, 'Reflection Of Magic', 163), --2
-  (1, 6, 'Dance With Her Own', 116), --3
+  (1, 6, 'Soul For Us', 200),
+  (1, 6, 'Reflection Of Magic', 163),
+  (1, 6, 'Dance With Her Own', 116),
 
-  (2, 6, 'Troubles Of My Inner Fire', 203), --3
-  (2, 6, 'Time Fireworks', 152), --4
+  (2, 6, 'Troubles Of My Inner Fire', 203),
+  (2, 6, 'Time Fireworks', 152),
 
-  (3, 4, 'Magic Circus', 105), --5
-  (3, 4, 'Honey, So Do I', 207), --6
-  (3, 4, "Sweetie, Lets's Go Wild", 139), --7
-  (3, 4, 'She Knows', 244), --8
+  (3, 4, 'Magic Circus', 105),
+  (3, 4, 'Honey, So Do I', 207),
+  (3, 4, "Sweetie, Lets's Go Wild", 139),
+  (3, 4, 'She Knows', 244),
 
-  (4, 3, 'Fantasy For Me', 100), --9
-  (4, 3, 'Celebration Of More', 146), --10
-  (4, 3, 'Rock His Everything', 223), --11
-  (4, 3, 'Home Forever', 231), --12
-  (4, 3, 'Diamond Power', 241), --13
-  (4, 3, "Let's Be Silly", 132), --14
+  (4, 3, 'Fantasy For Me', 100),
+  (4, 3, 'Celebration Of More', 146),
+  (4, 3, 'Rock His Everything', 223),
+  (4, 3, 'Home Forever', 231),
+  (4, 3, 'Diamond Power', 241),
+  (4, 3, "Let's Be Silly", 132),
 
-  (5, 2, 'Thang Of Thunder', 240), --15
-  (5, 2, 'Words Of Her Life', 185), --16
-  (5, 2, 'Without My Streets', 176), --17
+  (5, 2, 'Thang Of Thunder', 240),
+  (5, 2, 'Words Of Her Life', 185),
+  (5, 2, 'Without My Streets', 176),
 
-  (6, 2, 'Need Of The Evening', 190), --18
-  (6, 2, 'History Of My Roses', 222), --19
-  (6, 2, 'Without My Love', 111), --20
-  (6, 2, 'Walking And Game', 123), --21
-  (6, 2, 'Young And Father', 197), --22
+  (6, 2, 'Need Of The Evening', 190),
+  (6, 2, 'History Of My Roses', 222),
+  (6, 2, 'Without My Love', 111),
+  (6, 2, 'Walking And Game', 123),
+  (6, 2, 'Young And Father', 197),
 
-  (7, 5, 'Finding My Traditions', 179), --23
-  (7, 5, 'Walking And Man', 229), --24
-  (7, 5, 'Hard And Time', 135), --25 
-  (7, 5, "Honey, I'm A Lone Wolf", 150), --26
+  (7, 5, 'Finding My Traditions', 179),
+  (7, 5, 'Walking And Man', 229),
+  (7, 5, 'Hard And Time', 135),
+  (7, 5, "Honey, I'm A Lone Wolf", 150),
 
-  (8, 5, "She Thinks I Won't Stay Tonight", 166), --27
-  (8, 5, "He Heard You're Bad For Me", 154), --28 
-  (8, 5, "He Hopes We Can't Stay", 210), --29
-  (8, 5, 'I Know I Know', 117), --30
+  (8, 5, "She Thinks I Won't Stay Tonight", 166),
+  (8, 5, "He Heard You're Bad For Me", 154),
+  (8, 5, "He Hopes We Can't Stay", 210),
+  (8, 5, 'I Know I Know', 117),
 
-  (9, 5, "He's Walking Away", 159), --31
-  (9, 5, "He's Trouble", 138), --32
-  (9, 5, 'I Heard I Want To Bo Alone', 120), --33
-  (9, 5, 'I Ride Alone', 151), --34
+  (9, 5, "He's Walking Away", 159),
+  (9, 5, "He's Trouble", 138),
+  (9, 5, 'I Heard I Want To Bo Alone', 120),
+  (9, 5, 'I Ride Alone', 151),
 
-  (10, 1, 'Honey', 79), --35
-  (10, 1, 'You Cheated On Me', 95), --36
-  (10, 1, "Wouldn't It Be Nice", 213), --37
-  (10, 1, 'Baby', 136), --38
-  (10, 1, 'You Make Me Feel So..', 83); --39
+  (10, 1, 'Honey', 79),
+  (10, 1, 'You Cheated On Me', 95),
+  (10, 1, "Wouldn't It Be Nice", 213),
+  (10, 1, 'Baby', 136),
+  (10, 1, 'You Make Me Feel So..', 83);
 
 -- following_schema
 INSERT INTO SpotifyClone.following_schema (user_id, artist_id)
