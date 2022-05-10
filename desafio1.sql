@@ -92,7 +92,7 @@ VALUES
 INSERT INTO SpotifyClone.artist (artist_name)
 VALUES
   ('Fog'),
-  ('Freddie Shannon'),
+  ('Freedie Shannon'),
   ('Lance Day'),
   ('Peter Strong'),
   ('Tyler Isle'),
